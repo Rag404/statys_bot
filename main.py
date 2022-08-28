@@ -78,5 +78,4 @@ async def shutdown_command(ctx):
 
 load_dotenv()
 token = getenv("TOKEN")  # Get the token from the .env file
-
-client.run('OTIwNzIwMzMxODkzNzg4NzE1.YbodoQ.S7Ek_mU4S26-QJc42aVCQzou0T8')  # Start the bot
+client.run(token)  # Start the bot
