@@ -1,0 +1,6 @@
+.env
+bot-env
+*_pycache
+
+guilds_test.json
+base_.db
