@@ -1,4 +1,7 @@
-import discord
+import discord, os
+
+os.chdir("./statys_bot")
+
 import database_reader as db
 from datetime import datetime
 from discord.ext import commands
