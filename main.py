@@ -38,7 +38,7 @@ print("- - -")
 async def sendToOwner(text, thumbnailURL=None):
     owner = client.get_user(576435921390403623)
     embed = discord.Embed(title="🔔 Notification", description=text)
-    if thumbnailURL: embed.set_thumbnail(thumbnailURL)
+    if thumbnailURL: embed.set_thumbnail(url=thumbnailURL)
     await owner.send(embed=embed)
 
 
