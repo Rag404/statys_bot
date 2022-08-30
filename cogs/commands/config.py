@@ -1,6 +1,7 @@
 import discord
 import database_reader as db
 from discord.ext import commands
+from discord import ApplicationContext
 
 color = discord.Color.embed_background()
 missingPermEmbed = discord.Embed(title="⛔ Missing permissions", description="You need the Administrator permissions to use this command! 😢", color=color)
@@ -39,7 +40,7 @@ class ConfigCommand(commands.Cog):
 
         class SelectRoleDropdown(discord.ui.Select):            
             def __init__(self):
-                options = [discord.SelectOption(label="Do not give a role", emoji="🚫", value=0, default=True)]
+                options = [discord.SelectOption(label="Do not give a role", emoji="🚫", value="0", default=True)]
                 current_role_id = db.field('SELECT supporter_id FROM guilds WHERE guild_id = ?', ctx.guild.id)
 
                 count = 0
@@ -47,7 +48,7 @@ class ConfigCommand(commands.Cog):
                     if role.is_default() or role.managed: continue
                     count += 1
                     if count > 24: break  # There already is the "no role" options so there is only 24 options left for roles, not 25
-                    options.append(discord.SelectOption(label=role.name, value=role.id, emoji="<:mention:940318470002835477>"))
+                    options.append(discord.SelectOption(label=role.name, value=str(role.id), emoji="<:mention:940318470002835477>"))
                     if current_role_id == role.id:
                         options[-1].default = True
                         options[0].default = False
@@ -81,7 +82,7 @@ class ConfigCommand(commands.Cog):
                     if role.is_default(): continue
                     count += 1
                     if count > 25: break
-                    options.append(discord.SelectOption(label=role.name, value=role.id, emoji="<:mention:940318470002835477>"))
+                    options.append(discord.SelectOption(label=role.name, value=str(role.id), emoji="<:mention:940318470002835477>"))
                     if role.id in excludedIDs:
                         options[-1].default = True
 
@@ -172,7 +173,7 @@ class ConfigCommand(commands.Cog):
 
 
     @commands.slash_command(name="set-supporter", description="Admins only. Set the supporter role for this server.")
-    async def set_supporter(self, ctx, role: discord.Option(discord.Role, "Select a role", required=True)):
+    async def set_supporter(self, ctx: ApplicationContext, role: discord.Option(discord.Role, "Select a role", required=True)):
         if not ctx.author.guild_permissions.administrator:
             return await ctx.respond(embed=missingPermEmbed, ephemeral=True)
         
@@ -185,7 +186,7 @@ class ConfigCommand(commands.Cog):
             return await ctx.respond(embed=embed, ephemeral=True)
         
         botMember = ctx.guild.get_member(self.bot.user.id)
-        if role >= botMember.roles[0]:
+        if role >= botMember.top_role:
             embed = discord.Embed(title="⚠ Oops!", description="I'm sorry but can't manage this role as it is **higher than my highest role**.", color=color)
             return await ctx.respond(embed=embed, ephemeral=True)
 
