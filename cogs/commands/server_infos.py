@@ -1,7 +1,6 @@
 import discord, json
 import database_reader as db
 from discord.ext import commands
-from bot_config import guild_ids
 
 
 class ServerCommand(commands.Cog):

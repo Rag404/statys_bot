@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
 from cogs.commands import config, infos, server_infos
-from bot_config import guild_ids
 
 
 class HelpCommand(commands.Cog):

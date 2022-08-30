@@ -1,7 +1,6 @@
 import discord
 import database_reader as db
 from discord.ext import commands
-from bot_config import guild_ids
 
 color = discord.Color.embed_background()
 missingPermEmbed = discord.Embed(title="⛔ Missing permissions", description="You need the Administrator permissions to use this command! 😢", color=color)
@@ -12,7 +11,7 @@ class ConfigCommand(commands.Cog):
         self.bot = bot
 
 
-    @commands.slash_command(name="config", description="Admins only. Configure the bot for your server.", guild_ids=guild_ids)
+    @commands.slash_command(name="config", description="Admins only. Configure the bot for your server.")
     async def configCommand(self, ctx: commands.Context):
         # If the user who invoked the command is not admin, send him an embed
         if not ctx.author.guild_permissions.administrator:
@@ -172,7 +171,7 @@ class ConfigCommand(commands.Cog):
     
 
 
-    @commands.slash_command(name="set-supporter", description="Admins only. Set the supporter role for this server.", guild_ids=guild_ids)
+    @commands.slash_command(name="set-supporter", description="Admins only. Set the supporter role for this server.")
     async def set_supporter(self, ctx, role: discord.Option(discord.Role, "Select a role", required=True)):
         if not ctx.author.guild_permissions.administrator:
             return await ctx.respond(embed=missingPermEmbed, ephemeral=True)
@@ -197,7 +196,7 @@ class ConfigCommand(commands.Cog):
     
 
 
-    @commands.slash_command(name="add-excluded", description="Admins only. Set the roles I won't check on this server.", guild_ids=guild_ids)
+    @commands.slash_command(name="add-excluded", description="Admins only. Set the roles I won't check on this server.")
     async def add_excluded(self, ctx, role: discord.Option(discord.Role, "Select a role", required=True)):
         if not ctx.author.guild_permissions.administrator:
             return await ctx.respond(embed=missingPermEmbed, ephemeral=True)
@@ -220,7 +219,7 @@ class ConfigCommand(commands.Cog):
     
 
 
-    @commands.slash_command(name="remove-excluded", description="Admins only. Set the roles I won't check on this server.", guild_ids=guild_ids)
+    @commands.slash_command(name="remove-excluded", description="Admins only. Set the roles I won't check on this server.")
     async def add_excluded(self, ctx, role: discord.Option(discord.Role, "Select a role", required=True)):
         if not ctx.author.guild_permissions.administrator:
             return await ctx.respond(embed=missingPermEmbed, ephemeral=True)

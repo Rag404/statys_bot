@@ -1,6 +1,5 @@
 import discord, datetime, time
 from discord.ext import commands
-from bot_config import guild_ids
 
 
 class InfoCommand(commands.Cog):

@@ -5,7 +5,6 @@ os.chdir("./statys_bot")
 import database_reader as db
 from datetime import datetime
 from discord.ext import commands
-from bot_config import guild_ids
 
 from dotenv import load_dotenv
 from os import getenv

@@ -2,7 +2,6 @@ import discord, json
 import database_reader as db
 from discord.ext import commands, tasks
 from datetime import datetime
-from bot_config import guild_ids
 
 # time of the last iteration
 global lastIteration

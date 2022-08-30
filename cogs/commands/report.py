@@ -1,7 +1,6 @@
 import discord
 from discord.commands import Option
 from discord.ext import commands
-from bot_config import guild_ids
 
 
 class ReportCommand(commands.Cog):
