@@ -121,7 +121,7 @@ class ConfigCommand(Cog):
 
         class BackButton(Button):
             def __init__(self):
-                self = get_locale(back_button)
+                self.__dict__.update(back_button)
 
             async def callback(self, interaction):
                 if await is_missing_perms(interaction): return
@@ -130,7 +130,7 @@ class ConfigCommand(Cog):
 
         class ExitButton(Button):
             def __init__(self, row=4):
-                self: Button = get_locale(exit_button)
+                self.__dict__.update(get_locale(exit_button))
                 self.row = row
 
             async def callback(self, interaction):
