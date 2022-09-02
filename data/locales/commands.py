@@ -1,22 +1,28 @@
-from discord import Embed, EmbedField, Color, Button
+from discord import Embed, EmbedField, Color, Button, ButtonStyle
 
 
 back_button = {
-    "en-US": object(
-        label="Back",
-        emoji="<:back_arrow:940318470069960744>",
-        row=4
-    ),
-    "fr-FR": object(
-        label="Retour",
-        emoji="<:back_arrow:940318470069960744>",
-        row=4
-    ),
+    "en-US": {
+        "label": "Back",
+        "emoji": "<:back_arrow:940318470069960744>",
+        "row": 4
+    },
+    "fr-FR": {
+        "label": "Retour",
+        "emoji": "<:back_arrow:940318470069960744>",
+        "row": 4
+    },
 }
 
 exit_button = {
-    "en-US": object(label="Exit"),
-    "fr-FR": object(label="Sortir")
+    "en-US": {
+        "label": "Exit",
+        "style": ButtonStyle.red
+    },
+    "fr-FR": {
+        "label": "Sortir",
+        "style": ButtonStyle.red
+    }
 }
 
 missing_permission_embed = {
