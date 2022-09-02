@@ -121,7 +121,11 @@ class ConfigCommand(Cog):
 
         class BackButton(Button):
             def __init__(self):
-                self.__dict__.update(back_button)
+                super().__init__(
+                    label=get_locale(back_button),
+                    emoji="<:back_arrow:940318470069960744>",
+                    row=4
+                )
 
             async def callback(self, interaction):
                 if await is_missing_perms(interaction): return
@@ -130,8 +134,11 @@ class ConfigCommand(Cog):
 
         class ExitButton(Button):
             def __init__(self, row=4):
-                self.__dict__.update(get_locale(exit_button))
-                self.row = row
+                super().__init__(
+                    label=get_locale(exit_button),
+                    style=ButtonStyle.red,
+                    row=row
+                )
 
             async def callback(self, interaction):
                 if await is_missing_perms(interaction): return
