@@ -1,6 +1,6 @@
 bot-env/
-*__pycache__/
+__pycache__/
 old_statys/
 
 .env
-base.db
+*.db
