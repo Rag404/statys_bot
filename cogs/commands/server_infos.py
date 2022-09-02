@@ -1,15 +1,16 @@
-import discord, json
+import json
 import database_reader as db
-from discord.ext import commands
+from discord import Cog, Bot, ApplicationContext, Color, Embed, ButtonStyle, slash_command
+from discord.ui import Button, View
 
 
-class ServerCommand(commands.Cog):
+class ServerCommand(Cog):
     def __init__(self, bot):
-        self.bot = bot
+        self.bot: Bot = bot
     
 
-    @commands.slash_command(name="server-infos", description="Shows informations about this server")
-    async def serverInfos(self, ctx):
+    @slash_command(name="server-infos", description="Shows informations about this server.")
+    async def serverInfos(self, ctx: ApplicationContext):
         supporterID, excludedIDs = db.record('SELECT supporter_id, excluded_ids FROM guilds WHERE guild_id = ?', ctx.guild.id)
         excludedIDs = list(map(int, excludedIDs.split(', ')))
         
@@ -33,17 +34,17 @@ class ServerCommand(commands.Cog):
             supporterNumberText = "There is no supporter role on this server so there can't be any supporter..."
             supporterRoleText = "There is no supporter role on this server. 😞"
         
-        color = discord.Color.embed_background()
-        mainEmbed = discord.Embed(title="ℹ Infos about this server", color=color)
+        color = Color.embed_background()
+        mainEmbed = Embed(title="ℹ Infos about this server", color=color)
         mainEmbed.add_field(name="- Number of supporters", value=supporterNumberText)
         mainEmbed.add_field(name="- Supporter role", value=supporterRoleText)
         if excludedRolesMention: mainEmbed.add_field(name="- Excluded roles", value=excludedRolesText, inline=False)
         data = {"guild_id": ctx.guild.id, "supporter_id": supporterID, "excluded_ids": excludedIDs}
-        dataEmbed = discord.Embed(title="📂 Collected data", description="I need to collect some data about your server to work proprely. But don't worry, this is not sensitive data!\nI only collect the IDs of **the supporter role** and **the excluded roles** of each server.", color=color)
+        dataEmbed = Embed(title="📂 Collected data", description="I need to collect some data about your server to work proprely. But don't worry, this is not sensitive data!\nI only collect the IDs of **the supporter role** and **the excluded roles** of each server.", color=color)
         dataEmbed.add_field(name="The data of your server", value=f"```json\n{json.dumps(data, indent=2)}\n```")
 
 
-        class ToDataButton(discord.ui.Button):
+        class ToDataButton(Button):
             def __init__(self):
                 super().__init__(label="Collected data", emoji="📂")
 
@@ -51,28 +52,28 @@ class ServerCommand(commands.Cog):
                 await interaction.message.edit(embed=dataEmbed, view=DataView())
 
 
-        class BackButton(discord.ui.Button):
+        class BackButton(Button):
             def __init__(self):
                 super().__init__(label="Back", emoji="<:back_arrow:940318470069960744>")
 
             async def callback(self, interaction):
                 await interaction.message.edit(embed=mainEmbed, view=MainView())
 
-        class ExitButton(discord.ui.Button):
+        class ExitButton(Button):
             def __init__(self):
-                super().__init__(label="Exit", style=discord.ButtonStyle.red)
+                super().__init__(label="Exit", style=ButtonStyle.red)
 
             async def callback(self, interaction):
                 await interaction.message.delete()
         
 
-        class MainView(discord.ui.View):
+        class MainView(View):
             def __init__(self):
                 super().__init__()
                 self.add_item(ToDataButton())
                 self.add_item(ExitButton())
         
-        class DataView(discord.ui.View):
+        class DataView(View):
             def __init__(self):
                 super().__init__()
                 self.add_item(BackButton())

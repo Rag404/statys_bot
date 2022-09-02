@@ -1,20 +1,19 @@
-import discord
-from discord.ext import commands, tasks
+from discord import Cog, Bot, Streaming
+from discord.ext import tasks
 
-
-class BotStatus(commands.Cog):
+class BotStatus(Cog):
     def __init__(self, bot):
-        self.bot = bot
+        self.bot: Bot = bot
     
     # Loop to change every 10min
     global loopStatus    
     @tasks.loop(minutes=10)
     async def loopStatus(self):
         newActivity = f"/help | {len(self.bot.guilds)} servers"  # Set the activity of the bot with the number of guilds
-        await self.bot.change_presence(activity=discord.Streaming(name=newActivity, url="https://www.twitch.tv/ragdoll_do"))
+        await self.bot.change_presence(activity=Streaming(name=newActivity, url="https://www.twitch.tv/rag404"))
     
     # Start the loop when the cog is loaded
-    @commands.Cog.listener()
+    @Cog.listener()
     async def on_ready(self):
         loopStatus.start(self)
 

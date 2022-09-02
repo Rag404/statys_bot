@@ -1,6 +1,6 @@
-.env
-bot-env
-*__pycache__
+bot-env/
+*__pycache__/
+old_statys/
 
-guilds_test.json
-base_.db
+.env
+base.db

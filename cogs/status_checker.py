@@ -1,16 +1,16 @@
-import discord, json
 import database_reader as db
-from discord.ext import commands, tasks
+from discord import Cog, Bot, CustomActivity
+from discord.ext import tasks
 from datetime import datetime
 
-# time of the last iteration
+# Time of the last iteration
 global lastIteration
 lastIteration = datetime.utcnow()
 
 
-class StatusChecker(commands.Cog):
+class StatusChecker(Cog):
     def __init__(self, bot):
-        self.bot = bot
+        self.bot: Bot = bot
     
     # Loop to check every 5min
     global checkLoop
@@ -38,7 +38,7 @@ class StatusChecker(commands.Cog):
                 # For each activities the member is doing
                 for activity in activities:
                     # If the activity currently checked is the custom activity, returns it
-                    if isinstance(activity, discord.CustomActivity):
+                    if isinstance(activity, CustomActivity):
                         return activity.name
                 # If the member has no custom activity return None
                 return None
@@ -66,7 +66,7 @@ class StatusChecker(commands.Cog):
 
 
     # Start the loop when the cog is loaded
-    @commands.Cog.listener()
+    @Cog.listener()
     async def on_ready(self):
         checkLoop.start(self)
 
